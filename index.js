@@ -11,12 +11,12 @@ if (!databaseUri) {
 }
 
 var api = new ParseServer({
-  databaseURI: databaseUri || 'mongodb://trilly:trilly@ds013848.mongolab.com:13848/trillydb',
+  databaseURI: databaseUri,
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || '5k7poaTQLaV7KvDyKvNTdQ2hDlvENDrPIj0RxsG0',
-  masterKey: process.env.MASTER_KEY || 'HUfOKuHpHlq6DVFM4INi2s06WzO1S7foMdj2OpcR', //Add your master key here. Keep it secret!
+  appId: process.env.APP_ID,
+  masterKey: process.env.MASTER_KEY, //Add your master key here. Keep it secret!
   facebookAppIds: ['532505416917576'],
-  serverURL: process.env.SERVER_URI || 'http://localhost:1337/parse'
+  serverURL: process.env.SERVER_URI
 });
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
 // If you wish you require them, you can set them as options in the initialization above:
