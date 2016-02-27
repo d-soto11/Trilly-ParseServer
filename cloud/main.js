@@ -81,7 +81,7 @@ Parse.Cloud.define("checkUserTree", function(request, response) {
         // Successfully retrieved the object.
             var km = object.get("kmRecorridos");
             if (km-kmRecorridos > KM_FOR_TREE){
-                response.success()
+                response.success(km)
             }
             
         },
