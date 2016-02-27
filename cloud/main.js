@@ -1,3 +1,5 @@
+const KM_FOR_TREE = 200;
+
 Parse.Cloud.beforeSave("Ruta", function(request, response) {
     var km = request.object.get("kmRecorridos");
     var time = request.object.get("tiempo");
@@ -60,11 +62,32 @@ Parse.Cloud.afterSave("Ruta", function(request) {
 Parse.Cloud.beforeSave("Estadistica", function(request, response) {
     var km = request.object.get("kmRecorridos");
     var time = request.object.get("tiempo");
-    request.object.set("currentTree", ((km%200)/200)*100);
-    request.object.set("savedTrees", km/200);
+    request.object.set("currentTree", ((km%KM_FOR_TREE)/KM_FOR_TREE)*100);
+    request.object.set("savedTrees", km/KM_FOR_TREE);
     request.object.set("gas", km/45);
     request.object.set("kgCO2", km*0.15);
     request.object.set("money", (km/45)*8500);
 
     response.success();
+});
+
+Parse.Cloud.define("checkUserTree", function(request, response) {
+    var kmRecorridos = request.object.get("km");
+    
+    var query = new Parse.Query("Estadistica");
+    query.equalTo("user", request.user);
+    query.first({
+        success: function(object) {
+        // Successfully retrieved the object.
+            var km = object.get("kmRecorridos");
+            if (km-kmRecorridos > KM_FOR_TREE){
+                response.success()
+            }
+            
+        },
+        error: function(error) {
+            console.warn("Error: " + error.code + " " + error.message);
+            response.error()
+        }
+    });
 });
