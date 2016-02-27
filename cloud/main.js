@@ -60,9 +60,9 @@ Parse.Cloud.afterSave("Ruta", function(request) {
 Parse.Cloud.beforeSave("Estadistica", function(request, response) {
     var km = request.object.get("kmRecorridos");
     var time = request.object.get("tiempo");
-    
-    request.object.set("currentTree", (km%100));
-    request.object.set("savedTrees", km/100);
+        
+    request.object.set("currentTree", ((km%200)/200));
+    request.object.set("savedTrees", km/200);
     request.object.set("gas", km/45);
     request.object.set("kgCO2", km*0.15);
     request.object.set("money", (km/45)*8500);
