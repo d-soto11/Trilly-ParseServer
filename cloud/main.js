@@ -51,6 +51,23 @@ Parse.Cloud.afterSave("Ruta", function(request) {
             object.set("cal", cal+request.object.get("cal"));
             object.save();
             
+            var gruposUsuario = request.user.relation("grupos");
+                var gruposQuery = gruposUsuario.query();
+                        
+                gruposQuery.find({
+                    success: function(results){
+                        for (var j=0;j<results.length; j++){
+                            var grupo = results[j];
+                            grupo.increment("kmRecorridos", km);
+                            grupo.save();
+                        }
+                        response.success(km, nombre);
+                    },
+                    error: function(error){
+                        console.warn("Error: "+error.code+" "+error.message);
+                    }
+                });
+            
         },
         error: function(error) {
             console.warn("Error: " + error.code + " " + error.message);
@@ -68,6 +85,13 @@ Parse.Cloud.beforeSave("Estadistica", function(request, response) {
     request.object.set("kgCO2", km*0.15);
     request.object.set("money", (km/45)*8500);
 
+    response.success();
+});
+
+Parse.Cloud.afterSave("Grupo", function(request) {
+    var km = request.object.get("kmRecorridos");
+    request.object.set("savedTrees", km/KM_FOR_TREE);
+    request.object.set("kgCO2", km*0.15);
     response.success();
 });
 
@@ -92,13 +116,15 @@ Parse.Cloud.define("checkUserTree", function(request, response) {
                         empresaDonante.increment("arbolesDisponibles", -1);
                         empresaDonante.increment("arbolesRegalados");
                         empresaDonante.save();
+                        
                         response.success(km, nombre);
+                       
                     },
                     error: function(error){
                         console.warn("Error: "+error.code+" "+error.message);
                         response.error();
                     }
-                })
+                });
                 
             }
             
