@@ -110,7 +110,7 @@ Parse.Cloud.define("checkUserTree", function(request, response) {
                 empresas.find({
                     success: function(results){
                         var random = Math.random()*results.length;
-                        var i = (int)random;
+                        var i = parseInt(random, 10);
                         var empresaDonante = results[i];
                         var nombre = empresaDonante.get("nombre");
                         empresaDonante.increment("arbolesDisponibles", -1);
