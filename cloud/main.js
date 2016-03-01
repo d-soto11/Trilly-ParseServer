@@ -81,13 +81,31 @@ Parse.Cloud.define("checkUserTree", function(request, response) {
         // Successfully retrieved the object.
             var km = object.get("kmRecorridos");
             if (km-kmRecorridos > KM_FOR_TREE){
-                response.success(km)
+                var empresas = new Parse.Query("Empresa");
+                empresas.greaterThan("arbolesDisponibles", 0)
+                empresas.find({
+                    success: function(results){
+                        var random = Math.random()*results.length;
+                        var i = (int)random;
+                        var empresaDonante = results[i];
+                        var nombre = empresaDonante.get("nombre");
+                        empresaDonante.increment("arbolesDisponibles", -1);
+                        empresaDonante.increment("arbolesRegalados");
+                        empresaDonante.save();
+                        response.success(km, nombre);
+                    },
+                    error: function(error){
+                        console.warn("Error: "+error.code+" "+error.message);
+                        response.error();
+                    }
+                })
+                
             }
             
         },
         error: function(error) {
             console.warn("Error: " + error.code + " " + error.message);
-            response.error()
+            response.error();
         }
     });
 });
