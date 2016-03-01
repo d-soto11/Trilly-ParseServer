@@ -61,7 +61,6 @@ Parse.Cloud.afterSave("Ruta", function(request) {
                             grupo.increment("kmRecorridos", km);
                             grupo.save();
                         }
-                        response.success(km, nombre);
                     },
                     error: function(error){
                         console.warn("Error: "+error.code+" "+error.message);
