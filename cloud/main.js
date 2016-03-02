@@ -78,6 +78,7 @@ Parse.Cloud.afterSave("Ruta", function(request) {
 Parse.Cloud.beforeSave("Estadistica", function(request, response) {
     var km = request.object.get("kmRecorridos");
     var time = request.object.get("tiempo");
+    var KM_FOR_TREE = 200;
     request.object.set("currentTree", ((km%KM_FOR_TREE)/KM_FOR_TREE)*100);
     request.object.set("savedTrees", km/KM_FOR_TREE);
     request.object.set("gas", km/45);
