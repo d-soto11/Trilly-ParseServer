@@ -116,7 +116,10 @@ Parse.Cloud.define("checkUserTree", function(request, response) {
                         empresaDonante.increment("arbolesRegalados");
                         empresaDonante.save();
                         
-                        response.success(km, nombre);
+                        response.success({
+                            kilometers: km,
+                            empresa: nombre
+                        });
                        
                     },
                     error: function(error){
