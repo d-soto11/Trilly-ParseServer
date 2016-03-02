@@ -1,5 +1,3 @@
-const KM_FOR_TREE = 200;
-
 Parse.Cloud.beforeSave("Ruta", function(request, response) {
     var km = request.object.get("kmRecorridos");
     var time = request.object.get("tiempo");
@@ -78,9 +76,10 @@ Parse.Cloud.afterSave("Ruta", function(request) {
 Parse.Cloud.beforeSave("Estadistica", function(request, response) {
     var km = request.object.get("kmRecorridos");
     var time = request.object.get("tiempo");
-    console.log("Constante!: "+KM_FOR_TREE);
-    request.object.set("currentTree", ((km%KM_FOR_TREE)/KM_FOR_TREE)*100);
-    request.object.set("savedTrees", km/KM_FOR_TREE);
+    var KMS = process.env.KM_FOR_TREE;
+    console.log("Constante!: "+KMS);
+    request.object.set("currentTree", ((km%KMS)/KMS)*100);
+    request.object.set("savedTrees", km/KMS);
     request.object.set("gas", km/45);
     request.object.set("kgCO2", km*0.15);
     request.object.set("money", (km/45)*8500);
@@ -89,8 +88,9 @@ Parse.Cloud.beforeSave("Estadistica", function(request, response) {
 });
 
 Parse.Cloud.afterSave("Grupo", function(request) {
+    var KMS = process.env.KM_FOR_TREE;
     var km = request.object.get("kmRecorridos");
-    request.object.set("savedTrees", km/KM_FOR_TREE);
+    request.object.set("savedTrees", km/KMS);
     request.object.set("kgCO2", km*0.15);
     response.success();
 });
