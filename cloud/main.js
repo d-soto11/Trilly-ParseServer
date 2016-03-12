@@ -96,7 +96,7 @@ Parse.Cloud.afterSave("Grupo", function(request) {
 });
 
 Parse.Cloud.define("checkUserTree", function(request, response) {
-    var kmRecorridos = request.object.get("km");
+    var kmRecorridos = request.get("km");
     var KMS = parseInt(""+process.env.KM_FOR_TREE, 10);
     var query = new Parse.Query("Estadistica");
     query.equalTo("user", request.user);
