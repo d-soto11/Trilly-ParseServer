@@ -137,6 +137,9 @@ Parse.Cloud.define("checkUserTree", function(request, response) {
                 });
                 
             }
+            else{
+                response.success();
+            }
             
         },
         error: function(error) {
