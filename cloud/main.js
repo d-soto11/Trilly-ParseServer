@@ -1,8 +1,8 @@
-Parse.Cloud.beforeSave("Ruta", function(request, response) {
+Parse.Cloud.beforeSave("Ruta", function (request, response) {
     var km = request.object.get("kmRecorridos");
     var time = request.object.get("tiempo");
     
-    var velProm = (km/time)*3600 
+    var velProm = (km /time)*3600 
     request.object.set("velPromedio", velProm);
     
     console.log("User ID: "+request.object.get("usuario").id)
@@ -116,11 +116,9 @@ Parse.Cloud.define("checkUserTree", function(request, response) {
                         empresaDonante.increment("arbolesDisponibles", -1);
                         empresaDonante.increment("arbolesRegalados");
                         empresaDonante.save();
-                        
-                        response.success({
-                            kilometers: km,
-                            empresa: nombre
-                        });
+                    
+                        response.success({"kilometers":km,
+                                          "empresa":nombre});
                        
                     },
                     error: function(error){
