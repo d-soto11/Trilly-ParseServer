@@ -96,17 +96,22 @@ Parse.Cloud.afterSave("Grupo", function(request) {
 });
 
 Parse.Cloud.define("checkUserTree", function(request, response) {
+    console.log("Checking tree...");
     var kmRecorridos = request.km;
     var KMS = parseInt(""+process.env.KM_FOR_TREE, 10);
+    console.log("Params: "+request);
+    console.log("kmR: "+kmRecorridos);
     var query = new Parse.Query("Estadistica");
     query.equalTo("user", request.user);
+    console.log("Rquest user: "+request.user);
     query.first({
         success: function(object) {
         // Successfully retrieved the object.
             var km = object.get("kmRecorridos");
+            console.log("User finded");
             if (km-kmRecorridos > KMS){
                 var empresas = new Parse.Query("Empresa");
-                empresas.greaterThan("arbolesDisponibles", 0)
+                empresas.greaterThan("arbolesDisponibles", 0);
                 empresas.find({
                     success: function(results){
                         var random = Math.random()*results.length;
@@ -121,7 +126,7 @@ Parse.Cloud.define("checkUserTree", function(request, response) {
                                                 "empresa":nombre
                                                 }
                                       };
-                    
+                        console.log("About to respond: "+res);
                         response.success(res);
                        
                     },
