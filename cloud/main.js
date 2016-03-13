@@ -116,13 +116,17 @@ Parse.Cloud.define("checkUserTree", function(request, response) {
                         empresaDonante.increment("arbolesDisponibles", -1);
                         empresaDonante.increment("arbolesRegalados");
                         empresaDonante.save();
+                        
+                        var results = {results: {kilometers:km,
+                                                empresa:nombre
+                                                }
+                                      };
                     
-                        response.success({"kilometers":km,
-                                          "empresa":nombre});
+                        response.success(results);
                        
                     },
                     error: function(error){
-                        console.warn("Error: "+error.code+" "+error.message);
+                        console.warn("Error trees: "+error.code+" "+error.message);
                         response.error();
                     }
                 });
@@ -131,7 +135,7 @@ Parse.Cloud.define("checkUserTree", function(request, response) {
             
         },
         error: function(error) {
-            console.warn("Error: " + error.code + " " + error.message);
+            console.warn("Error trees: " + error.code + " " + error.message);
             response.error();
         }
     });
