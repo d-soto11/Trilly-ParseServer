@@ -108,8 +108,8 @@ Parse.Cloud.define("checkUserTree", function(request, response) {
         success: function(object) {
         // Successfully retrieved the object.
             var km = object.get("kmRecorridos");
-            console.log("User finded");
-            if (km-kmRecorridos > KMS){
+            console.log("User finded: "+km);
+            if (km+kmRecorridos > KMS){
                 var empresas = new Parse.Query("Empresa");
                 empresas.greaterThan("arbolesDisponibles", 0);
                 empresas.find({
