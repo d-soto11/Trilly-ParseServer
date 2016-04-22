@@ -83,7 +83,7 @@ Parse.Cloud.beforeSave("Estadistica", function(request, response) {
     request.object.set("gas", km/45);
     request.object.set("kgCO2", km*0.15);
     request.object.set("money", (km/45)*8500);
-    request.object.set("tahorr", km*60/19);
+    request.object.set("tahorr", (km*60/19)-time);
 
     response.success();
 });
